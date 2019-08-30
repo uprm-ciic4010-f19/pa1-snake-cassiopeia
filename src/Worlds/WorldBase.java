@@ -29,9 +29,8 @@ public abstract class WorldBase {
 
 
     public Boolean appleOnBoard;
-    protected Apple apple;
+    public Apple apple;
     public Boolean[][] appleLocation;
-
 
     public Boolean[][] playerLocation;
 
@@ -52,15 +51,15 @@ public abstract class WorldBase {
     }
 
     public void render(Graphics g){
-
-        for (int i = 0; i <= 800; i = i + GridPixelsize) {
+    	//White grid lines
+        /*for (int i = 0; i <= 800; i = i + GridPixelsize) {
 
             g.setColor(Color.white);
             g.drawLine(0, i, handler.getWidth() , i);
             g.drawLine(i,0,i,handler.getHeight());
 
         }
-
+	*/
 
 
     }

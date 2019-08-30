@@ -22,8 +22,6 @@ public class DisplayScreen {
         this.width = width;
         this.height = height;
 
-
-
         createDisplay();
     }
 
