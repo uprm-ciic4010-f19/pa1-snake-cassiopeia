@@ -1,5 +1,7 @@
 package Main;
 
+import Game.Entities.Dynamic.Player;
+import Game.Entities.Static.Apple;
 import Input.KeyManager;
 import Input.MouseManager;
 import Worlds.WorldBase;
@@ -50,6 +52,14 @@ public class Handler {
     public void setWorld(WorldBase world) {
         this.world = world;
     }
+
+	public Apple getApple() {
+		return world.apple;
+	}
+	
+	public Player getPlayer() {
+		return world.player;
+	}
 
 
 }

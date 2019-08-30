@@ -10,8 +10,7 @@ import java.util.Random;
  * Created by AlexVR on 7/2/2018.
  */
 public class Player {
-
-    public int lenght;
+	
     public boolean justAte;
     private Handler handler;
 
@@ -29,13 +28,13 @@ public class Player {
         moveCounter = 0;
         direction= "Right";
         justAte = false;
-        lenght= 1;
 
     }
 
     public void tick(){
         moveCounter++;
-        if(moveCounter>=5) {
+        if(moveCounter>=2) { // speed of snake
+        	handler.getApple().checkToRot();
             checkCollisionAndMove();
             moveCounter=0;
         }
@@ -120,7 +119,8 @@ public class Player {
     }
 
     public void Eat(){
-        lenght++;
+       
+        //handler.setScore(current_score);
         Tail tail= null;
         handler.getWorld().appleLocation[xCoord][yCoord]=false;
         handler.getWorld().appleOnBoard=false;
@@ -207,7 +207,7 @@ public class Player {
                             tail=(new Tail(this.xCoord-1,this.yCoord,handler));
                         }else{
                             tail=(new Tail(this.xCoord+1,this.yCoord,handler));
-                        } System.out.println("Tu biscochito");
+                        }
                     }
                 }else{
                     if(handler.getWorld().body.getLast().y!=0){
@@ -223,12 +223,22 @@ public class Player {
                 }
                 break;
         }
-        handler.getWorld().body.addLast(tail);
+        
+        if(handler.getApple().isGood()) {
+        	System.out.println("added tail");
+        	handler.getWorld().body.addLast(tail);
+        }
+        else {
+        	System.out.println("ouch");
+        	handler.getWorld().body.pop();
+        	//if(handler.getWorld().body.isEmpty()) snake is dead, call game over
+        }
+        
+        
         handler.getWorld().playerLocation[tail.x][tail.y] = true;
     }
 
     public void kill(){
-        lenght = 0;
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
 
