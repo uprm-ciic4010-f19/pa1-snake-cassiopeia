@@ -1,6 +1,6 @@
 package Game.Entities.Static;
 
-import java.util.Random;
+import java.awt.Color;
 
 import Main.Handler;
 
@@ -11,11 +11,11 @@ public class Apple {
 
     private Handler handler;
     
-    private double score_added;
+    private final int MAX_STEPS = 150;
     
     private boolean rotten = false;
     
-    Random rotten_chance = new Random();
+    private Color color = Color.WHITE;
     
     public int xCoord;
     public int yCoord;
@@ -24,21 +24,19 @@ public class Apple {
         this.handler=handler;
         xCoord=x;
         yCoord=y;
-        
-        //score_added = Math.sqrt(2*(Handler.player.getScore())+1); //sqrt(2*currentScore+1)
-        
+                
     }
 
-    public void checkToRot() {
-    	if(rotten_chance.nextInt(1000) == 0) { // Randomly make it so apple becomes rotten
-    		System.out.println("Is bad");
+    public void checkToRot(int steps) {
+    	if(steps % MAX_STEPS == 0 && steps != 0) { // Steps doesnt reset after passing 30, thus we check for divisibility
+    		System.out.println("Is bad"); // Debugging feature, remove in the future
     		turnRotten();
     	}
     }
     
     public void turnRotten() {
-    	score_added = -score_added;
     	rotten = true;
+    	color = Color.yellow;
     }
     
     public boolean isGood() {
