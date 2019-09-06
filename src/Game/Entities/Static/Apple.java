@@ -13,9 +13,9 @@ public class Apple {
     
     private final int MAX_STEPS = 150;
     
-    private boolean rotten = false;
+    private boolean isRotten = false;
     
-    private Color color = Color.WHITE;
+    private Color color = Color.RED;
     
     public int xCoord;
     public int yCoord;
@@ -35,12 +35,15 @@ public class Apple {
     }
     
     public void turnRotten() {
-    	rotten = true;
+    	isRotten = true;
     	color = Color.yellow;
     }
     
     public boolean isGood() {
-    	return !rotten;
+    	return !isRotten;
+    }
+    public Color getColor() {
+    	return color;
     }
     
 }

@@ -49,7 +49,7 @@ public abstract class WorldBase {
 
 
     }
-
+    
     public void render(Graphics g){
     	//White grid lines
         /*for (int i = 0; i <= 800; i = i + GridPixelsize) {
