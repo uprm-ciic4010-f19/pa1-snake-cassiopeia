@@ -108,14 +108,21 @@ public class Player {
 
     }
 
-    public void render(Graphics g,Boolean[][] playeLocation){
+    public void render(Graphics g, Boolean[][] playeLocation){
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
-                g.setColor(Color.WHITE);
+                g.setColor(Color.GREEN);
                 
                 g.drawString(format.format(score),10, 10);
-                
-                if(playeLocation[i][j]||handler.getWorld().appleLocation[i][j]){
+              
+                if(playeLocation[i][j]){
+                    g.fillRect((i*handler.getWorld().GridPixelsize),
+                            (j*handler.getWorld().GridPixelsize),
+                            handler.getWorld().GridPixelsize,
+                            handler.getWorld().GridPixelsize);
+                }
+                if(handler.getWorld().appleLocation[i][j]){
+                	g.setColor(handler.getApple().getColor());
                     g.fillRect((i*handler.getWorld().GridPixelsize),
                             (j*handler.getWorld().GridPixelsize),
                             handler.getWorld().GridPixelsize,
