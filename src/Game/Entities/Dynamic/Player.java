@@ -6,6 +6,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 
+import Game.GameStates.State;
+
+
 /**
  * Created by AlexVR on 7/2/2018.
  */
@@ -48,14 +51,23 @@ public class Player {
         }
     	
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP)){
-            direction="Up";
+        	if(direction != "Down") {
+            direction="Up";}
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)){
-            direction="Down";
+        	if(direction != "Up") {
+            direction="Down";}
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT)){
-            direction="Left";
+        	if(direction != "Right") {
+            direction="Left";}
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)){
-            direction="Right";
+        	if(direction != "Left") {
+            direction="Right";}
         }
+	    if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)){
+	    	State.setState(handler.getGame().pauseState);	//Pauses the game
+	    }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_K)) {
+	    	State.setState(handler.getGame().gameOverState); //For testing game over
+	    }
 
     }
 
@@ -249,7 +261,7 @@ public class Player {
 	        	handler.getWorld().body.removeLast();
 	        	setScore(-score_formula);
         	}
-        	// else snake is dead call gameOver state
+        	else State.setState(handler.getGame().gameOverState);
         }
         
         
