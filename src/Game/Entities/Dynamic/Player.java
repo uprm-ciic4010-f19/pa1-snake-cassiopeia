@@ -39,13 +39,17 @@ public class Player {
             moveCounter=0;
         }
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP)){
-            direction="Up";
+        	if(direction != "Down") {
+            direction="Up";}
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)){
-            direction="Down";
+        	if(direction != "Up") {
+            direction="Down";}
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT)){
-            direction="Left";
+        	if(direction != "Right") {
+            direction="Left";}
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)){
-            direction="Right";
+        	if(direction != "Left") {
+            direction="Right";}
         }
 
     }
