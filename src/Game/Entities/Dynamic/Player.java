@@ -87,35 +87,35 @@ public class Player {
         int x = xCoord;
         int y = yCoord;
         switch (direction){
-            case "Left":
-                if(xCoord == 0){
-                    kill();
-                }else{
-                    xCoord--;
-                }
-                break;
-            case "Right":
-                if(xCoord == handler.getWorld().GridWidthHeightPixelCount-1){
-                    kill();
-                }else{
-                    xCoord++;
-                }
-                break;
-            case "Up":
-                if(yCoord == 0){
-                    kill();
-                }else{
-                    yCoord--;
-                }
-                break;
-            case "Down":
-                if(yCoord == handler.getWorld().GridWidthHeightPixelCount-1){
-                    kill();
-                }else{
-                    yCoord++;
-                }
-                break;
-        }
+        case "Left":
+            if(xCoord == 0){
+                xCoord = handler.getWorld().GridWidthHeightPixelCount-1;
+            }else{
+                xCoord--;
+            }
+            break;
+        case "Right":
+            if(xCoord == handler.getWorld().GridWidthHeightPixelCount-1){
+                xCoord = 0;
+            }else{
+                xCoord++;
+            }
+            break;
+        case "Up":
+            if(yCoord == 0){
+                yCoord = handler.getWorld().GridWidthHeightPixelCount-1;
+            }else{
+                yCoord--;
+            }
+            break;
+        case "Down":
+            if(yCoord == handler.getWorld().GridWidthHeightPixelCount-1){
+                yCoord = 0;
+            }else{
+                yCoord++;
+            }
+            break;
+    }
         handler.getWorld().playerLocation[xCoord][yCoord] = true;
 
 
