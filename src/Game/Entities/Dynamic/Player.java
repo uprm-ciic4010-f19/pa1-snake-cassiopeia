@@ -24,8 +24,6 @@ public class Player {
     public int moveCounter;
     public double moveSpeed;
     private int steps = 0;
-    
-    public int length;
 
     public String direction; 
     
@@ -39,7 +37,6 @@ public class Player {
         moveCounter = 0;
         moveSpeed = 11;
         direction = "Right";
-        length = 1;
 
     }
 
@@ -69,10 +66,12 @@ public class Player {
 	    if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)){
 	    	State.setState(handler.getGame().pauseState);
 	    }
-	    // GameOver debug hotkey
-	    /*if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_K)) {
+	    
+	    /* GameOver debug hotkey
+	    if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_K)) {
 	    	State.setState(handler.getGame().gameOverState); 			
 	    }*/
+	    
 	    if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_EQUALS)){
         	moveSpeed -= 2;  		
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_MINUS)) {
@@ -145,7 +144,8 @@ public class Player {
                 g.setColor(Color.GREEN);
                 
                 g.drawString("Score: "+format.format(score),10, 10);
-                g.drawString("Current Boost: "+format.format(-moveSpeed),650, 10);
+                if(moveSpeed>0)g.drawString("Current Speed: "+format.format(-moveSpeed),650, 10);
+                else g.drawString("Current Speed: Max",650, 10);
               
                 if(playeLocation[i][j]){
                     g.fillRect((i*handler.getWorld().GridPixelsize),
@@ -164,16 +164,22 @@ public class Player {
         }
     }
 
-////	Adds Tail	////
     public void addTail(Tail tail) {
-    	length++;
     	handler.getWorld().body.addLast(tail);
     	handler.getWorld().playerLocation[tail.x][tail.y] = true;
 	}
     
+    public void removeTail() {
+    	Tail deadTail = handler.getWorld().body.pop();
+    	
+        handler.getWorld().playerLocation[deadTail.x][deadTail.y] = false;
+    }
+    
     public void Eat(){
     	steps = 0; // restart counter for apple to rot once new one appears
         Tail tail = null;
+        
+        handler.getWorld().playerLocation[xCoord][yCoord]=false;
         
         handler.getWorld().appleLocation[xCoord][yCoord]=false;
         handler.getWorld().appleOnBoard=false;
@@ -276,27 +282,16 @@ public class Player {
         }
         
         if(handler.getApple().isGood()) {
-        	System.out.println("added tail");
         	addTail(tail);
         	setScore(score_formula);
         }
         else {
-        	if(!handler.getWorld().body.isEmpty()) { 
-	        	System.out.println("ouch");
-	        	Tail deadTail = handler.getWorld().body.pop();
+        	if(!handler.getWorld().body.isEmpty()) {
+	        	removeTail();
 	        	setScore(-score_formula);
-	            handler.getWorld().playerLocation[deadTail.x][deadTail.y] = false;
         	}
         	else State.setState(handler.getGame().gameOverState);
         }        
-    }
-
-    public void kill(){
-        for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
-            for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
-                handler.getWorld().playerLocation[i][j]=false;
-            }
-        }
     }
 
     public void setScore(double score) {

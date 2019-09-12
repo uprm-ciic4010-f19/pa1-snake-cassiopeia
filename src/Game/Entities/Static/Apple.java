@@ -29,7 +29,6 @@ public class Apple {
 
     public void checkToRot(int steps) {
     	if(steps % MAX_STEPS == 0 && steps != 0) { // Steps doesnt reset after passing 30, thus we check for divisibility
-    		System.out.println("Is bad"); // Debugging feature, remove in the future
     		turnRotten();
     	}
     }
