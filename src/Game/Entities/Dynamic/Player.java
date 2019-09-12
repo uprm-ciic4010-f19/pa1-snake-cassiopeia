@@ -24,7 +24,10 @@ public class Player {
     public int yCoord;
 
     public int moveCounter;
+    public double moveSpeed;
     private int steps = 0;
+    
+    public int length;
 
     public String direction; 
     
@@ -36,14 +39,16 @@ public class Player {
         xCoord = 0;
         yCoord = 0;
         moveCounter = 0;
+        moveSpeed = 11;
         direction = "Right";
+        length = 1;
 
     }
 
     public void tick(){
-        moveCounter += student_id + 1;
+        moveCounter += 1;
         
-        if(moveCounter>=5) {
+        if(moveCounter>=moveSpeed) {
         	steps++;
             checkCollisionAndMove();
             handler.getApple().checkToRot(steps);
@@ -64,10 +69,16 @@ public class Player {
             direction="Right";}
         }
 	    if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)){
-	    	State.setState(handler.getGame().pauseState);	//Pauses the game
+	    	State.setState(handler.getGame().pauseState);
 	    }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_K)) {
-	    	State.setState(handler.getGame().gameOverState); //For testing game over
-	    }
+	    	State.setState(handler.getGame().gameOverState); 				//For testing game over
+	    }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_EQUALS)){
+        	moveSpeed -= 2;  		
+        }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_MINUS)) {
+        	moveSpeed += 2;
+        }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)){
+            addTail();
+        }
 
     }
 
@@ -110,6 +121,7 @@ public class Player {
 
         if(handler.getWorld().appleLocation[xCoord][yCoord]){
             Eat();
+            moveSpeed -= 0.5; //Increases by .4 + .1  I made them decimals because the snake would reach ridiculous speeds way to quickly with integers.
         }
 
         if(!handler.getWorld().body.isEmpty()) {
@@ -118,6 +130,14 @@ public class Player {
             handler.getWorld().body.addFirst(new Tail(x, y,handler));
         }
 
+    }
+    
+    //// 	Adds Tail	////
+    public void addTail() {
+    	length++;
+        Tail tail = new Tail (xCoord, yCoord, handler);
+        handler.getWorld().body.addLast(tail);
+        handler.getWorld().playerLocation[tail.x][tail.y] = true;
     }
 
     public void render(Graphics g, Boolean[][] playeLocation){
