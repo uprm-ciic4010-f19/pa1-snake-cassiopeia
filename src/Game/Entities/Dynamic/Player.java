@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class Player {
 
-    public int lenght;
+    public int length;
     public boolean justAte;
     private Handler handler;
 
@@ -29,7 +29,7 @@ public class Player {
         moveCounter = 0;
         direction= "Right";
         justAte = false;
-        lenght= 1;
+        length = 1;
 
     }
 
@@ -47,6 +47,8 @@ public class Player {
             direction="Left";
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)){
             direction="Right";
+        }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)){
+            addTail();
         }
 
     }
@@ -99,7 +101,16 @@ public class Player {
         }
 
     }
+    
+    //// 	Adds Tail	////
+    public void addTail() {
+    	length++;
+        Tail tail = new Tail (xCoord, yCoord, handler);
+        handler.getWorld().body.addLast(tail);
+        handler.getWorld().playerLocation[tail.x][tail.y] = true;
+    }
 
+    
     public void render(Graphics g,Boolean[][] playeLocation){
         Random r = new Random();
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
@@ -120,7 +131,7 @@ public class Player {
     }
 
     public void Eat(){
-        lenght++;
+        length++;
         Tail tail= null;
         handler.getWorld().appleLocation[xCoord][yCoord]=false;
         handler.getWorld().appleOnBoard=false;
@@ -228,7 +239,7 @@ public class Player {
     }
 
     public void kill(){
-        lenght = 0;
+        length = 0;
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
 
