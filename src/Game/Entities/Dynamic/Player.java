@@ -130,7 +130,13 @@ public class Player {
             handler.getWorld().body.removeLast();
             handler.getWorld().body.addFirst(new Tail(x, y,handler));
         }
-
+        
+        // Self-collision check
+        for(int i = 1; i < handler.getWorld().body.size(); i++) {
+    		if(xCoord == handler.getWorld().body.get(i).x && yCoord == handler.getWorld().body.get(i).y) {
+    			State.setState(handler.getGame().gameOverState);
+    		}
+    	}
     }
 
     public void render(Graphics g, Boolean[][] playeLocation){
