@@ -33,8 +33,6 @@ public class GameSetUp implements Runnable {
     private BufferStrategy bs;
     private Graphics g;
 
-
-
     //Input
     private KeyManager keyManager;
     private MouseManager mouseManager;

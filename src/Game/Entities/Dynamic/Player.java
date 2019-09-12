@@ -18,8 +18,6 @@ public class Player {
 	
     private Handler handler;
     
-    private final int student_id = 1;
-    
     public int xCoord;
     public int yCoord;
 
@@ -70,20 +68,23 @@ public class Player {
         }
 	    if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)){
 	    	State.setState(handler.getGame().pauseState);
-	    }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_K)) {
-	    	State.setState(handler.getGame().gameOverState); 				//For testing game over
-	    }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_EQUALS)){
+	    }
+	    // GameOver debug hotkey
+	    /*if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_K)) {
+	    	State.setState(handler.getGame().gameOverState); 			
+	    }*/
+	    if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_EQUALS)){
         	moveSpeed -= 2;  		
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_MINUS)) {
         	moveSpeed += 2;
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)){
-            addTail();
+            addTail(new Tail(xCoord, yCoord, this.handler));
         }
 
     }
 
     public void checkCollisionAndMove(){
-        handler.getWorld().playerLocation[xCoord][yCoord]=false;
+    	handler.getWorld().playerLocation[xCoord][yCoord]=false;
         int x = xCoord;
         int y = yCoord;
         switch (direction){
@@ -115,7 +116,7 @@ public class Player {
                 yCoord++;
             }
             break;
-    }
+        }
         handler.getWorld().playerLocation[xCoord][yCoord] = true;
 
 
@@ -131,21 +132,14 @@ public class Player {
         }
 
     }
-    
-    //// 	Adds Tail	////
-    public void addTail() {
-    	length++;
-        Tail tail = new Tail (xCoord, yCoord, handler);
-        handler.getWorld().body.addLast(tail);
-        handler.getWorld().playerLocation[tail.x][tail.y] = true;
-    }
 
     public void render(Graphics g, Boolean[][] playeLocation){
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
                 g.setColor(Color.GREEN);
                 
-                g.drawString(format.format(score),10, 10);
+                g.drawString("Score: "+format.format(score),10, 10);
+                g.drawString("Current Boost: "+format.format(-moveSpeed),650, 10);
               
                 if(playeLocation[i][j]){
                     g.fillRect((i*handler.getWorld().GridPixelsize),
@@ -154,7 +148,7 @@ public class Player {
                             handler.getWorld().GridPixelsize);
                 }
                 if(handler.getWorld().appleLocation[i][j]){
-                	g.setColor(handler.getApple().getColor());
+                	g.setColor(handler.getApple().getColor()); // Programatically changes apple color when good/rotten
                     g.fillRect((i*handler.getWorld().GridPixelsize),
                             (j*handler.getWorld().GridPixelsize),
                             handler.getWorld().GridPixelsize,
@@ -164,8 +158,15 @@ public class Player {
         }
     }
 
+////	Adds Tail	////
+    public void addTail(Tail tail) {
+    	length++;
+    	handler.getWorld().body.addLast(tail);
+    	handler.getWorld().playerLocation[tail.x][tail.y] = true;
+	}
+    
     public void Eat(){
-    	steps = 0; // restart counter for apple to rot
+    	steps = 0; // restart counter for apple to rot once new one appears
         Tail tail = null;
         
         handler.getWorld().appleLocation[xCoord][yCoord]=false;
@@ -193,7 +194,6 @@ public class Player {
 
                         }
                     }
-
                 }
                 break;
             case "Right":
@@ -241,7 +241,6 @@ public class Player {
                             tail=(new Tail(handler.getWorld().body.getLast().x+1,this.yCoord,handler));
                         }
                     }
-
                 }
                 break;
             case "Down":
@@ -272,32 +271,27 @@ public class Player {
         
         if(handler.getApple().isGood()) {
         	System.out.println("added tail");
-        	handler.getWorld().body.addLast(tail);
+        	addTail(tail);
         	setScore(score_formula);
         }
         else {
         	if(!handler.getWorld().body.isEmpty()) { 
 	        	System.out.println("ouch");
-	        	handler.getWorld().body.removeLast();
+	        	Tail deadTail = handler.getWorld().body.pop();
 	        	setScore(-score_formula);
+	            handler.getWorld().playerLocation[deadTail.x][deadTail.y] = false;
         	}
         	else State.setState(handler.getGame().gameOverState);
-        }
-        
-        
-        handler.getWorld().playerLocation[tail.x][tail.y] = true;
+        }        
     }
 
     public void kill(){
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
-
                 handler.getWorld().playerLocation[i][j]=false;
-
             }
         }
     }
-
 
     public void setScore(double score) {
         this.score = this.score + score;
