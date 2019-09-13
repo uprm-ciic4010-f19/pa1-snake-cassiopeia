@@ -22,10 +22,12 @@ public class Player {
     public int yCoord;
 
     public int moveCounter;
-    public double moveSpeed;
+    public int moveSpeed;
     private int steps = 0;
 
     public String direction; 
+    
+    private int studentID = 1; //402180721
     
     private double score = 1;
     private double score_formula = (double) Math.sqrt((2*score)+1); //sqrt(2*currentScore+1)
@@ -121,7 +123,7 @@ public class Player {
 
         if(handler.getWorld().appleLocation[xCoord][yCoord]){
             Eat();
-            moveSpeed -= 0.5; //Increases by .4 + .1  I made them decimals because the snake would reach ridiculous speeds way to quickly with integers.
+            moveSpeed -= studentID+1;
         }
 
         if(!handler.getWorld().body.isEmpty()) {
@@ -144,8 +146,8 @@ public class Player {
                 g.setColor(Color.GREEN);
                 
                 g.drawString("Score: "+format.format(score),10, 10);
-                if(moveSpeed>0)g.drawString("Current Speed: "+format.format(-moveSpeed),650, 10);
-                else g.drawString("Current Speed: Max",650, 10);
+                if(moveSpeed>0)g.drawString("Current Slowness modifier: "+format.format(-moveSpeed),610, 10);
+                else g.drawString("Current Speed: Max",700, 10);
               
                 if(playeLocation[i][j]){
                     g.fillRect((i*handler.getWorld().GridPixelsize),
@@ -154,7 +156,7 @@ public class Player {
                             handler.getWorld().GridPixelsize);
                 }
                 if(handler.getWorld().appleLocation[i][j]){
-                	g.setColor(handler.getApple().getColor()); // Programatically changes apple color when good/rotten
+                	g.setColor(handler.getApple().getColor()); // Programmatically changes apple color when good/rotten
                     g.fillRect((i*handler.getWorld().GridPixelsize),
                             (j*handler.getWorld().GridPixelsize),
                             handler.getWorld().GridPixelsize,
@@ -286,6 +288,7 @@ public class Player {
         	setScore(score_formula);
         }
         else {
+        	// Check to see if eating bad apple will cause game over
         	if(!handler.getWorld().body.isEmpty()) {
 	        	removeTail();
 	        	setScore(-score_formula);
