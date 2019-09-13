@@ -29,7 +29,7 @@ public class Images {
         Options = new BufferedImage[2];
 
         try {
-            title = ImageIO.read(getClass().getResourceAsStream("/Sheets/Title.png"));
+            title = ImageIO.read(getClass().getResourceAsStream("/Sheets/Java_Snake.png"));
             GameOver = ImageIO.read(getClass().getResourceAsStream("/Sheets/Game_Over.png"));
             Pause = ImageIO.read(getClass().getResourceAsStream("/Buttons/Pause.png"));
             Resume[0] = ImageIO.read(getClass().getResourceAsStream("/Buttons/Resume.png"));
