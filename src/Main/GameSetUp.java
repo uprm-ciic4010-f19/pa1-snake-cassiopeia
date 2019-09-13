@@ -75,7 +75,6 @@ public class GameSetUp implements Runnable {
 
         Images img = new Images();
 
-
         handler = new Handler(this);
 
         gameState = new GameState(handler);
@@ -93,7 +92,14 @@ public class GameSetUp implements Runnable {
             info = new DataLine.Info(Clip.class, format);
             audioClip = (Clip) AudioSystem.getLine(info);
             audioClip.open(audioStream);
+            
+            // Volume level control
+            FloatControl gainControl = 
+            		(FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-20.0f);
+            
             audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+            
 
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();

@@ -8,7 +8,6 @@ import java.text.DecimalFormat;
 
 import Game.GameStates.State;
 
-
 /**
  * Created by AlexVR on 7/2/2018.
  */
@@ -155,6 +154,7 @@ public class Player {
                             handler.getWorld().GridPixelsize,
                             handler.getWorld().GridPixelsize);
                 }
+                
                 if(handler.getWorld().appleLocation[i][j]){
                 	g.setColor(handler.getApple().getColor()); // Programmatically changes apple color when good/rotten
                     g.fillRect((i*handler.getWorld().GridPixelsize),

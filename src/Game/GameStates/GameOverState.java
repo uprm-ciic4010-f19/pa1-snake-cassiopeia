@@ -46,8 +46,6 @@ public class GameOverState extends State {
 
             State.setState(handler.getGame().menuState);
         }
-
-
     }
 
     @Override
