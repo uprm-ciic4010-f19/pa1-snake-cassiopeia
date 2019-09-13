@@ -97,7 +97,7 @@ public class GameSetUp implements Runnable {
             FloatControl gainControl = 
             		(FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-20.0f);
-            
+         
             audioClip.loop(Clip.LOOP_CONTINUOUSLY);
             
 
